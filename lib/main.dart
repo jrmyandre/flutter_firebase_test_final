@@ -27,6 +27,7 @@ class _MainAppState extends State<MainApp> {
   final phoneController = TextEditingController();
   final latController = TextEditingController();
   final lngController = TextEditingController();
+  final usernamecontroller = TextEditingController();
   List<Map<dynamic, dynamic>> dataList = [];
   List<Map<dynamic, dynamic>> dataListPhone = [];
   bool? _selectedValue;
@@ -99,6 +100,24 @@ class _MainAppState extends State<MainApp> {
                 ),
 
               ),
+              TextField(
+                controller: phoneController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter your phone number',
+                ),
+
+              
+              ),
+              TextField(
+                controller: usernamecontroller,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter your user id',
+                ),
+
+              
+              ),
               SizedBox(height: 20),
               Row(
                 children: [
@@ -132,6 +151,9 @@ class _MainAppState extends State<MainApp> {
                     'longitude': lngController.text,
                     'manual': _selectedValue,
                     'manualTemp': _selectedValue,
+                    'phone number': phoneController.text,
+                    'user id': usernamecontroller.text,
+
                     'timestamp': formatter.format(now)
                   };
                   dbReference.push().set(data);   
@@ -142,33 +164,7 @@ class _MainAppState extends State<MainApp> {
                 },
                 child: const Text('Submit'),
               ),
-              SizedBox(height: 20),
-              Text(
-                dataListPhone.toString(),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: phoneController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Enter your phone number',
-                ),
-
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    Map<String, dynamic> data = {
-                    'phone': phoneController.text,
-                  };
-                  dbReferencePhone.push().set(data);
-                  phoneController.clear();
-                  });
-                  
-                },
-                child: const Text('Submit'),
-              ),
+              
             ],
           )
         ),
