@@ -40,33 +40,14 @@ class _MainAppState extends State<MainApp> {
     super.initState();
 
     dbReference.onValue.listen((event) {
-      final snapshot = event.snapshot;
-      setState(() {
-        data = snapshot.value.toString();
-      });
-    });
-
-    dbReference.onValue.listen((event) {
       Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
       data.forEach((key, values) {
-        dataList.add(values);
+        if (values['longitude'] == "") {
+          dbReference.child(key).remove();
+        }
       });
     });
 
-    dbReferencePhone.onValue.listen((event) {
-      Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
-      data.forEach((key, values) {
-        dataListPhone.add(values);
-      });
-    });
-
-    // dbReference.onValue.listen((event) {
-    //   Map<dynamic, dynamic> values = event.snapshot.value as Map<dynamic, dynamic>;
-    //   setState(() {
-    //     lat = values['lat'].toString();
-    //     lng = values['lng'].toString();
-    //   });
-    // });
   }
   
   @override
@@ -80,12 +61,12 @@ class _MainAppState extends State<MainApp> {
         body: Center(
           child: Column(
             children: [
-              Text(dataList.toString() ),
+              // Text(dataList.toString() ),
               Text(lng ),
               SizedBox(height: 20),
               TextField(
                 controller: latController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Enter your latitude',
                 ),
@@ -94,7 +75,7 @@ class _MainAppState extends State<MainApp> {
               SizedBox(height: 20),
               TextField(
                 controller: lngController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Enter your longitude',
                 ),
@@ -102,7 +83,7 @@ class _MainAppState extends State<MainApp> {
               ),
               TextField(
                 controller: phoneController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Enter your phone number',
                 ),
@@ -111,14 +92,14 @@ class _MainAppState extends State<MainApp> {
               ),
               TextField(
                 controller: usernamecontroller,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Enter your user id',
                 ),
 
               
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Radio<bool>(
@@ -150,7 +131,7 @@ class _MainAppState extends State<MainApp> {
                     'latitude': latController.text,
                     'longitude': lngController.text,
                     'manual': _selectedValue,
-                    'manualTemp': _selectedValue,
+                    'manual temp': _selectedValue,
                     'phone number': phoneController.text,
                     'user id': usernamecontroller.text,
 
